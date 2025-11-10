@@ -1,20 +1,23 @@
 package data.repositories;
 
+import data.models.Ticket;
+import data.repositories.TicketsRepository;
+
 import java.util.List;
 
-public class Tickets implements TicketsRepository{
+public class Tickets implements TicketsRepository {
     @Override
-    public TicketsRepository save(TicketsRepository ticket) {
+    public Ticket save(Ticket ticket) {
         return null;
     }
 
     @Override
-    public TicketsRepository findById(int id) {
+    public Ticket findById(int id) {
         return null;
     }
 
     @Override
-    public List<TicketsRepository> findAll() {
+    public List<Ticket> findAll() {
         return List.of();
     }
 
@@ -29,7 +32,7 @@ public class Tickets implements TicketsRepository{
     }
 
     @Override
-    public void delete(TicketsRepository ticket) {
+    public void delete(Ticket ticket) {
 
     }
 
