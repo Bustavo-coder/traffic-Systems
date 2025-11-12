@@ -2,6 +2,7 @@ package data.repositories;
 
 import data.models.Officer;
 import exceptions.OfficerNotFound;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,11 +11,16 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class OfficersTest {
-    private Officers officers;
+    private OfficerRepository officers;
     @BeforeEach
     public void setUp(){
         officers = new Officers();
     }
+    @AfterEach
+    public void tearDown(){
+        officers.deleteALL();
+    }
+
 
     @Test
     @DisplayName("test that i don't have any Officers")
@@ -106,7 +112,7 @@ public class OfficersTest {
         Officer  officer2 = new Officer("Officer3");
         officers.save(officer2);
         officers.deleteALL();
-        assertEquals(officers.count(),0);
+        assertEquals(0, officers.count());
     }
 
     @Test
@@ -115,13 +121,24 @@ public class OfficersTest {
         assertThrows(OfficerNotFound.class,()-> officers.deleteById(90000));
     }
 
+    @Test
+    @DisplayName("test when an officer rank increase i update it on my repo")
+    public void rank_Increased(){
+        Officer  officer1 = new Officer("Officer2");
+        officers.save(officer1);
+        assertEquals(officers.count(),1);
+        officers.save(officer1);
+        assertEquals(officers.count(),1);
+    }
 
-
-
-
-
-
-
+    @Test
+    @DisplayName("test that i can find by nin")
+    public void findByNin(){
+        Officer officer = new Officer();
+        officers.save(officer);
+        officer.setNin("412322");
+        assertEquals(officers.findByNin("412322"),officer);
+    }
 
 
 }

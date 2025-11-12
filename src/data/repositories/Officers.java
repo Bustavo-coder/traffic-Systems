@@ -10,9 +10,8 @@ public class Officers implements OfficerRepository{
 
     @Override
     public Officer save(Officer officer) {
-        officer.setId(generate());
-        listOfOfficers.put(officer.getId(),officer);
-        count++;
+       registerNew(officer);
+       listOfOfficers.put(officer.getId(),officer);
         return officer;
     }
 
@@ -32,13 +31,11 @@ public class Officers implements OfficerRepository{
         validateOfficerId(id);
         listOfOfficers.get(id).setId(0);
         listOfOfficers.remove(id);
-        count--;
     }
 
     @Override
     public void deleteALL() {
         listOfOfficers.clear();
-        count = 0;
     }
 
     @Override
@@ -49,7 +46,14 @@ public class Officers implements OfficerRepository{
 
     @Override
     public long count() {
-        return count;
+        return listOfOfficers.size();
+    }
+
+    public Officer findByNin(String nin){
+        for(Officer officer : listOfOfficers.values()){
+            if(officer.getNin().equals(nin)) return officer;
+        }
+        return null;
     }
 
     private int generate(){
@@ -57,5 +61,15 @@ public class Officers implements OfficerRepository{
     }
     private void validateOfficerId(int id){
         if (!listOfOfficers.containsKey(id)) throw new OfficerNotFound("Officer Is Not Yet Registered");
+    }
+    private Boolean isNew(Officer officer){
+        return officer.getId() == 0;
+
+    }
+    private void registerNew(Officer officer){
+        if(isNew(officer)) {
+            officer.setId(generate());
+            count++;
+        }
     }
 }

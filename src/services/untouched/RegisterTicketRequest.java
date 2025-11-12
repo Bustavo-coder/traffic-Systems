@@ -1,23 +1,15 @@
-package data.models;
+package services.untouched;
 
-import java.time.LocalDateTime;
+import data.models.Offence;
+import data.models.Officer;
+import data.models.Vehicle;
 
-public class Ticket {
-    private int id;
+public class RegisterTicketRequest {
     private Vehicle vehicle;
     private Offence offence;
     private boolean hasPaid;
     private Officer issuer;
-    private final LocalDateTime dateOfBooking = LocalDateTime.now();
-    private LocalDateTime dateOfPayment;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public Vehicle getVehicle() {
         return vehicle;
@@ -35,30 +27,18 @@ public class Ticket {
         this.offence = offence;
     }
 
-    public boolean isHasPaid() {
+    public boolean HasPaid() {
         return hasPaid;
     }
 
     public void setHasPaid(boolean hasPaid) {
         this.hasPaid = hasPaid;
     }
-
     public Officer getIssuer() {
         return issuer;
     }
 
     public void setIssuer(Officer issuer) {
         this.issuer = issuer;
-    }
-    public LocalDateTime getDateOfBooking() {
-        return dateOfBooking;
-    }
-
-    public LocalDateTime getDateOfPayment() {
-        return dateOfPayment;
-    }
-
-    public void setDateOfPayment(LocalDateTime dateOfPayment) {
-        this.dateOfPayment = dateOfPayment;
     }
 }

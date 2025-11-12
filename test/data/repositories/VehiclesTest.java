@@ -2,6 +2,7 @@ package data.repositories;
 
 import data.models.Vehicle;
 import exceptions.VehicleNotRegisterd;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,17 +10,17 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class VehiclesTest {
-    private Vehicles vehicles;
+    private VehicleRepository vehicles;
     @BeforeEach
     public void setUp(){
         vehicles = new Vehicles();
     }
+
     @Test
     @DisplayName("test that i don have any vehicle")
     public void noVehicles(){
         assertEquals(0,vehicles.count());
     }
-
 
     @Test
     @DisplayName("test when i save a car")
@@ -32,13 +33,23 @@ public class VehiclesTest {
 
     @Test
     @DisplayName("test that when i add a vehicle i can find by id")
-    public void findByIdId(){
+    public void findById(){
         Vehicle savedVehicle = new Vehicle();
         vehicles.save(savedVehicle);
-       Vehicle expectedVehicle =  vehicles.findById(1);
-       assertEquals(savedVehicle.getId(), expectedVehicle.getId());
+        Vehicle expectedVehicle =  vehicles.findById(1);
+        assertEquals(savedVehicle.getId(), expectedVehicle.getId());
     }
 
+    @Test
+    @DisplayName("When I tried Updating a new Car")
+    public void update(){
+        Vehicle savedVehicle1 = new Vehicle();
+        vehicles.save(savedVehicle1);
+        assertEquals(1,vehicles.count());
+        vehicles.save(savedVehicle1);
+        assertEquals(1,vehicles.count());
+
+    }
 
     @Test
     @DisplayName("add two vehicles")
@@ -73,7 +84,7 @@ public class VehiclesTest {
     }
 
     @Test
-    @DisplayName("TEST that when i tried finding a vehicle that not registered")
+    @DisplayName("test that when i tried finding a vehicle that not registered")
     public void find_UnRegisteredVehicle(){
         Vehicle vehicle1 = new Vehicle();
         assertThrows(VehicleNotRegisterd.class,()->vehicles.findById(vehicle1.getId()));
@@ -89,16 +100,22 @@ public class VehiclesTest {
     }
 
     @Test
-    @DisplayName("test that when i add two vehicles and i deleted one test that a new added vehicle takes the deleted vehicles id ")
-    public void delete_add(){
+    @DisplayName("test that when i add i vehicle i can delete by id")
+    public void findByChassisNumber(){
         Vehicle savedVehicle1 = new Vehicle();
-        Vehicle savedVehicle2 = new Vehicle();
+        savedVehicle1.setChassisNumber("244444");
         vehicles.save(savedVehicle1);
-        vehicles.save(savedVehicle2);
-        vehicles.delete(savedVehicle1);
-        Vehicle savedVehicle3 = new Vehicle();
-        vehicles.save(savedVehicle3);
-        assertEquals(1, savedVehicle3.getId());
+        assertEquals(vehicles.findByChassisNumber("244444"),savedVehicle1);
+
+
+    }
+
+
+
+
+    @AfterEach
+    void tearDown(){
+        vehicles.deleteALL();
     }
 
 

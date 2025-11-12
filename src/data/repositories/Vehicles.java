@@ -5,44 +5,45 @@ import exceptions.VehicleNotFound;
 import exceptions.VehicleNotRegisterd;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Vehicles implements VehicleRepository{
-    private int count;
-    List<Vehicle> vehicles = new ArrayList<>();
+    private static int count = 0;
+    private static HashMap<Integer,Vehicle> listOfVehicles = new HashMap<>();
+
+
     @Override
     public Vehicle save(Vehicle vehicle) {
-        if(isNewCar(vehicle)) {
-            if (findFirstNullPosition() != -1) saveNewVehiclesToNullPosition(vehicle);
-            else addNewVehicles(vehicle);
-        }
-
+        registerNew(vehicle);
+        listOfVehicles.put(vehicle.getId(),vehicle);
         return vehicle;
     }
 
-
     @Override
     public Vehicle findById(int id) {
-        validateUserId(id);
-        return vehicles.get(reduceUserIdByOne(id));
+        validateId(id);
+        return listOfVehicles.get(id);
     }
 
     @Override
-    public List<Vehicle> findAll() {
-        return vehicles;
+    public HashMap<Integer,Vehicle> findAll() {
+        return listOfVehicles;
     }
 
     @Override
     public void deleteById(int id) {
-        validateUserId(id);
-        vehicles.get(reduceUserIdByOne(id)).setId(0);
-        setDeletedVehiclePositionToNull(reduceUserIdByOne(id));
-        count--;
+        validateId(id);
+        listOfVehicles.remove(id);
+
+
     }
 
     @Override
     public void deleteALL() {
-        vehicles.clear();
+        listOfVehicles.clear();
+        count = 0;
+
     }
 
     @Override
@@ -53,49 +54,37 @@ public class Vehicles implements VehicleRepository{
 
     @Override
     public long count() {
-        return count;
+        return listOfVehicles.size();
+    }
+
+    @Override
+    public Vehicle findByChassisNumber(String chassisNumber) {
+        for(Vehicle vehicle : listOfVehicles.values()){
+            if(vehicle.getChassisNumber().equals(chassisNumber)) return vehicle;
+        }
+        return null;
     }
 
 
     private int generateID(){
         return count + 1;
-    }
-
-
-    private void isNull(int vehicleId){
-        if (vehicles.get(vehicleId) == null) throw new VehicleNotFound("Vehicle Not Available");
-    }
-
-    private void setDeletedVehiclePositionToNull(int id){
-        vehicles.set(id,null);
-    }
-
-    private int reduceUserIdByOne(int id){
-        return id -1 ;
-    }
-
-    private void validateUserId(int id){
-        if (id < 1 || id > count) throw new VehicleNotRegisterd("Vehicle Is Not Yet Registered");
-    }
-
-    private int findFirstNullPosition(){
-        return vehicles.indexOf(null);
-    }
-
-    private void saveNewVehiclesToNullPosition(Vehicle vehicle){
-        vehicle.setId(findFirstNullPosition()+1);
-        vehicles.set(findFirstNullPosition(),vehicle);
-        count++;
-    }
-    private void addNewVehicles(Vehicle vehicle){
-        vehicle.setId(generateID());
-        vehicles.add(vehicle);
-        count++;
-    }
-
-    private Boolean isNewCar(Vehicle vehicle){
+  }
+  private boolean isNew(Vehicle vehicle){
         return vehicle.getId() == 0;
-    }
+  }
+
+
+  private void registerNew(Vehicle vehicle){
+      if(isNew(vehicle)) {
+          vehicle.setId(generateID());
+          count++;
+      }
+
+  }
+
+  private void validateId(int id){
+        if(!listOfVehicles.containsKey(id))throw new VehicleNotRegisterd("Vehicle Is Not Registered");
+  }
 
 
 

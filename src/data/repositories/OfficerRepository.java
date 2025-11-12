@@ -14,4 +14,5 @@ public interface OfficerRepository {
     void deleteALL();
     void delete(Officer officer);
     long count();
+    Officer findByNin(String nin);
 }

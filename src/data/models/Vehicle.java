@@ -10,7 +10,8 @@ public class Vehicle {
     private String color;
     private String plateNumber;
     private Owner owner;
-    List<Ticket> tickets;
+    private String chassisNumber;
+    private List<Ticket> tickets;
 
     public int getId() {
         return id;
@@ -76,5 +77,13 @@ public class Vehicle {
 
     public void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
+    }
+
+    public String getChassisNumber() {
+        return chassisNumber;
+    }
+
+    public void setChassisNumber(String chassisNumber) {
+        this.chassisNumber = chassisNumber;
     }
 }

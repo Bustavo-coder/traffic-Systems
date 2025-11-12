@@ -1,7 +1,6 @@
-package data.models;
+package dtos.requests;
 
-public class Officer {
-    private int id;
+public class RegisterOfficerRequest {
     private String name;
     private String rank;
 
@@ -14,11 +13,6 @@ public class Officer {
     }
 
     private String nin;
-    public Officer(){};
-
-    public Officer(String name){
-        this.name = name;
-    }
 
     public String getName() {
         return name;
@@ -34,13 +28,5 @@ public class Officer {
 
     public void setRank(String rank) {
         this.rank = rank;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 }
