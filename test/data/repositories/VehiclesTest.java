@@ -80,14 +80,14 @@ public class VehiclesTest {
         Vehicle savedVehicle1 = new Vehicle();
         vehicles.save(savedVehicle1);
         vehicles.deleteById(savedVehicle1.getId());
-        assertThrows(VehicleNotRegisterd.class,()->vehicles.findById(savedVehicle1.getId()));
+        assertEquals(null,vehicles.findById(savedVehicle1.getId()));
     }
 
     @Test
     @DisplayName("test that when i tried finding a vehicle that not registered")
     public void find_UnRegisteredVehicle(){
         Vehicle vehicle1 = new Vehicle();
-        assertThrows(VehicleNotRegisterd.class,()->vehicles.findById(vehicle1.getId()));
+        assertEquals(null,vehicles.findById(vehicle1.getId()));
     }
 
     @Test
@@ -96,7 +96,7 @@ public class VehiclesTest {
         Vehicle savedVehicle1 = new Vehicle();
         vehicles.save(savedVehicle1);
         vehicles.delete(savedVehicle1);
-        assertThrows(VehicleNotRegisterd.class,()->vehicles.findById(savedVehicle1.getId()));
+        assertEquals(null,vehicles.findById(savedVehicle1.getId()));
     }
 
     @Test

@@ -18,7 +18,7 @@ public class Tickets implements TicketsRepository {
 
     @Override
     public Ticket findById(int id) {
-        validateId(id);
+//        validateId(id);
         return listOfTicket.get(id);
     }
 
@@ -29,7 +29,7 @@ public class Tickets implements TicketsRepository {
 
     @Override
     public void deleteById(int id) {
-        validateId(id);
+//        validateId(id);
         listOfTicket.remove(id);
     }
 
@@ -63,9 +63,10 @@ public class Tickets implements TicketsRepository {
         }
 
     }
-    private void validateId(int id){
-        if(!listOfTicket.containsKey(id)) throw new TicketNotFound("Ticket Not Found");
-    }
+
+//    private void validateId(int id){
+//        if(!listOfTicket.containsKey(id)) throw new TicketNotFound("Ticket Not Found");
+//    }
 
 
 

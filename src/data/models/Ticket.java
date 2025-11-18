@@ -19,6 +19,17 @@ public class Ticket {
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        return "Ticket{\n" +
+                "id = " + id +
+                "\n offence = " + offence +
+                "\n hasPaid = " + hasPaid +
+                "\n issuer = " + issuer +
+                "\n dateOfBooking = " + dateOfBooking +
+                '}';
+    }
+
     public Vehicle getVehicle() {
         return vehicle;
     }
@@ -35,11 +46,11 @@ public class Ticket {
         this.offence = offence;
     }
 
-    public boolean isHasPaid() {
+    public boolean getPaymentStatus() {
         return hasPaid;
     }
 
-    public void setHasPaid(boolean hasPaid) {
+    public void setPaymentStatus(boolean hasPaid) {
         this.hasPaid = hasPaid;
     }
 

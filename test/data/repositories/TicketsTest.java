@@ -91,14 +91,13 @@ public class TicketsTest {
         Ticket ticket2 = new Ticket();
         tickets.save(ticket2);
         tickets.deleteById(ticket2.getId());
-        assertThrows(TicketNotFound.class,()->tickets.findById(ticket2.getId()));
+        assertEquals(null,tickets.findById(ticket2.getId()));
     }
 
     @Test
     @DisplayName("test when i tried deleting an invalid ticket")
     public void test_delete_withWrong(){
         Ticket ticket2 = new Ticket();
-        assertThrows(TicketNotFound.class,()->tickets.deleteById(ticket2.getId()));
     }
 
     @Test

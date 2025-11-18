@@ -6,11 +6,9 @@ import data.models.Officer;
 import java.time.LocalDateTime;
 
 public class BookTicketsRequest {
-
     private int vehicleId;
-    private Offence offence;
-    private boolean hasPaid;
-    private Officer issuer;
+    private String offenceName;
+    private int officerId;
 
     public int getVehicleId() {
         return vehicleId;
@@ -20,33 +18,19 @@ public class BookTicketsRequest {
         this.vehicleId = vehicleId;
     }
 
-    public Offence getOffence() {
-        return offence;
+    public String getOffenceName() {
+        return offenceName;
     }
 
-    public void setOffence(Offence offence) {
-        this.offence = offence;
+    public void setOffenceName(String offenceName) {
+        this.offenceName = offenceName;
     }
 
-    public boolean getHasPaid() {
-        return hasPaid;
+    public int getOfficerId() {
+        return officerId;
     }
 
-    public void setHasPaid(boolean hasPaid) {
-        this.hasPaid = hasPaid;
+    public void setOfficerId(int officerId) {
+        this.officerId = officerId;
     }
-
-    public Officer getIssuer() {
-        return issuer;
-    }
-
-    public void setIssuer(Officer issuer) {
-        this.issuer = issuer;
-    }
-
-    public LocalDateTime getDateOfBooking() {
-        return dateOfBooking;
-    }
-
-    private final LocalDateTime dateOfBooking = LocalDateTime.now();
 }

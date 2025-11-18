@@ -1,9 +1,6 @@
 package utils;
 
-import data.models.Officer;
-import data.models.Owner;
-import data.models.Ticket;
-import data.models.Vehicle;
+import data.models.*;
 import dtos.requests.BookTicketsRequest;
 import dtos.requests.RegisterOfficerRequest;
 import dtos.requests.RegisterVehicleRequest;
@@ -36,12 +33,6 @@ public class Mapper {
         return officer;
     }
 
-    public static Ticket map(BookTicketsRequest request){
-        Ticket ticket = new Ticket();
-        ticket.setIssuer(request.getIssuer());
-        ticket.setOffence(request.getOffence());
-        ticket.setHasPaid(request.getHasPaid());
-        return ticket;
-    }
+
 
 }

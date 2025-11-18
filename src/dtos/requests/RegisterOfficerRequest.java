@@ -3,6 +3,7 @@ package dtos.requests;
 public class RegisterOfficerRequest {
     private String name;
     private String rank;
+    private String nin;
 
     public String getNin() {
         return nin;
@@ -11,8 +12,6 @@ public class RegisterOfficerRequest {
     public void setNin(String nin) {
         this.nin = nin;
     }
-
-    private String nin;
 
     public String getName() {
         return name;

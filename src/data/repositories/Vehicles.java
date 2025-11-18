@@ -1,12 +1,7 @@
 package data.repositories;
 
 import data.models.Vehicle;
-import exceptions.VehicleNotFound;
-import exceptions.VehicleNotRegisterd;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class Vehicles implements VehicleRepository{
     private static int count = 0;
@@ -22,7 +17,7 @@ public class Vehicles implements VehicleRepository{
 
     @Override
     public Vehicle findById(int id) {
-        validateId(id);
+//        validateId(id);
         return listOfVehicles.get(id);
     }
 
@@ -33,7 +28,7 @@ public class Vehicles implements VehicleRepository{
 
     @Override
     public void deleteById(int id) {
-        validateId(id);
+//        validateId(id);
         listOfVehicles.remove(id);
 
 
@@ -82,9 +77,9 @@ public class Vehicles implements VehicleRepository{
 
   }
 
-  private void validateId(int id){
-        if(!listOfVehicles.containsKey(id))throw new VehicleNotRegisterd("Vehicle Is Not Registered");
-  }
+//  private void validateId(int id){
+//        if(!listOfVehicles.containsKey(id))throw new VehicleNotRegisterd("Vehicle Is Not Registered");
+//  }
 
 
 

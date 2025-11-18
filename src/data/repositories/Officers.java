@@ -6,7 +6,7 @@ import exceptions.OfficerNotFound;
 import java.util.HashMap;
 public class Officers implements OfficerRepository{
     private int count;
-    private HashMap<Integer,Officer> listOfOfficers = new HashMap<>();
+    private static HashMap<Integer,Officer> listOfOfficers = new HashMap<>();
 
     @Override
     public Officer save(Officer officer) {
@@ -15,28 +15,32 @@ public class Officers implements OfficerRepository{
         return officer;
     }
 
+
     @Override
     public Officer findById(int id) {
-        validateOfficerId(id);
         return listOfOfficers.get(id);
     }
+
 
     @Override
     public HashMap<Integer, Officer> findAll() {
         return listOfOfficers;
     }
 
+
     @Override
     public void deleteById(int id) {
-        validateOfficerId(id);
         listOfOfficers.get(id).setId(0);
         listOfOfficers.remove(id);
     }
+
 
     @Override
     public void deleteALL() {
         listOfOfficers.clear();
     }
+
+
 
     @Override
     public void delete(Officer officer) {
@@ -44,10 +48,14 @@ public class Officers implements OfficerRepository{
         deleteById(id);
     }
 
+
+
     @Override
     public long count() {
         return listOfOfficers.size();
     }
+
+
 
     public Officer findByNin(String nin){
         for(Officer officer : listOfOfficers.values()){
@@ -56,20 +64,27 @@ public class Officers implements OfficerRepository{
         return null;
     }
 
+
     private int generate(){
         return count + 1;
     }
-    private void validateOfficerId(int id){
-        if (!listOfOfficers.containsKey(id)) throw new OfficerNotFound("Officer Is Not Yet Registered");
-    }
+//    private void validateOfficerId(int id){
+//        if (!listOfOfficers.containsKey(id)) throw new OfficerNotFound("Officer Is Not Yet Registered");
+//    }
+
+
     private Boolean isNew(Officer officer){
         return officer.getId() == 0;
-
     }
+
+
+
     private void registerNew(Officer officer){
         if(isNew(officer)) {
             officer.setId(generate());
             count++;
         }
     }
+
+
 }

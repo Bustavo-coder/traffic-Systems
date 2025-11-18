@@ -1,5 +1,6 @@
 package services;
 
+import data.models.Officer;
 import data.repositories.OfficerRepository;
 import data.repositories.Officers;
 import dtos.requests.RegisterOfficerRequest;
@@ -11,14 +12,14 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class adminOfficerServiceTest {
-    private adminOfficerService officerService;
+public class officerServiceTest {
+    private OfficerService officerService;
     private OfficerRepository officerRepository;
 
     @BeforeEach
     void setUp() {
+        officerService = new officerServiceImpl();
         officerRepository = new Officers();
-        officerService = new adminOfficerServiceImpl();
     }
 
     @AfterEach
@@ -31,7 +32,7 @@ public class adminOfficerServiceTest {
     void registerOfficer() {
         RegisterOfficerRequest request = new RegisterOfficerRequest();
         officerService.registerOfficer(request);
-        assertEquals(0,officerRepository.count());
+        assertEquals(1,officerRepository.count());
     }
     @Test
     @DisplayName("test when i register twice")
@@ -39,14 +40,18 @@ public class adminOfficerServiceTest {
         RegisterOfficerRequest request = new RegisterOfficerRequest();
         request.setNin("2444");
         officerService.registerOfficer(request);
-        assertEquals(0,officerRepository.count());
+        assertEquals(1,officerRepository.count());
         assertThrows(OfficerExists.class,()->officerService.registerOfficer(request));
     }
 
     @Test
-    @DisplayName("test that i can book a ticket")
-    public void test_BookAnOfficer(){
+    @DisplayName("test that the registered officer nin")
+    public void register(){
         RegisterOfficerRequest request = new RegisterOfficerRequest();
-
+        request.setNin("2444");
+        officerService.registerOfficer(request);
+        assertEquals(officerRepository.count(),1);
+//        String nin = officerRepository.findByNin("2444").getNin();
     }
+
 }
