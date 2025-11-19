@@ -185,6 +185,9 @@ public class TicketServiceImlTest {
         settleTicketRequest.setVehicleId(1);
         ticketService.settleTicket(settleTicketRequest);
         assertTrue(ticketsRepository.findById(1).getPaymentStatus());
+        var vehicle = vehicleRepository.findById(1);
+        assertTrue(vehicle.getTickets().get(0).isSettled());
+
         
         assertThrows(PaidTicketExceptions.class,()-> ticketService.settleTicket(settleTicketRequest));
 

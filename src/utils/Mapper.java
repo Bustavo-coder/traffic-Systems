@@ -4,6 +4,7 @@ import data.models.*;
 import dtos.requests.BookTicketsRequest;
 import dtos.requests.RegisterOfficerRequest;
 import dtos.requests.RegisterVehicleRequest;
+import dtos.response.*;
 
 public class Mapper {
     public static Vehicle map(RegisterVehicleRequest request){
@@ -33,6 +34,63 @@ public class Mapper {
         return officer;
     }
 
+    public static Ticket map(BookTicketsRequest request){
+        Ticket ticket = new Ticket();
+        ticket.setOffence(Offence.valueOf(request.getOffenceName()));
+        return ticket;
+    }
 
+    public static RegisterVehicleResponse map(Vehicle savedVehicle){
+        RegisterVehicleResponse response = new RegisterVehicleResponse();
+        response.setOwnerName(savedVehicle.getOwner().getName());
+        response.setVehicleId(response.getVehicleId());
+        return response;
+    }
+
+    public static RegisterOfficerResponse map(Officer savedOfficer){
+        RegisterOfficerResponse response = new RegisterOfficerResponse();
+        response.setName(savedOfficer.getName());
+        response.setId(savedOfficer.getId());
+        return response;
+    }
+
+    public static BookTicketResponse map(Ticket savedTicket){
+        BookTicketResponse response = new BookTicketResponse();
+        response.setDateOfBooking(savedTicket.getDateOfBooking());
+        response.setIssuerName(savedTicket.getIssuer().getName());
+        response.setHasPaid(savedTicket.getPaymentStatus());
+        response.setOffenceFee(savedTicket.getOffence().price);
+        response.setOwnerName(savedTicket.getVehicle().getOwner().getName());
+        response.setOfficerId(savedTicket.getIssuer().getId());
+        response.setVehicleId(savedTicket.getVehicle().getId());
+        response.setOffence(savedTicket.getOffence().name());
+        response.setOffenceFee(savedTicket.getOffence().price);
+        return  response;
+    }
+
+    public static SettleTicketResponse mapToSettle(Ticket savedTicket){
+        SettleTicketResponse response = new SettleTicketResponse();
+        response.setDateOfPayment(savedTicket.getDateOfPayment());
+        response.setHasPaid(savedTicket.getPaymentStatus());
+        response.setOffence(savedTicket.getOffence());
+        response.setOwnerName(savedTicket.getVehicle().getOwner().getName());
+        response.setVehicleId(savedTicket.getVehicle().getId());
+        return response;
+
+
+    }
+
+    public static ViewTicketResponse mapView(Ticket savedTicket){
+        ViewTicketResponse response = new ViewTicketResponse();
+        response.setDateOfBooking(savedTicket.getDateOfBooking());
+        response.setIssuerName(savedTicket.getIssuer().getName());
+        response.setTicketId(savedTicket.getId());
+        response.setHasPaid(savedTicket.getPaymentStatus());
+        response.setOfficerId(savedTicket.getIssuer().getId());
+        response.setVehicleId(savedTicket.getId());
+        response.setOwnerName(savedTicket.getVehicle().getName());
+        response.setVehicleId(savedTicket.getVehicle().getId());
+    return response;
+    }
 
 }

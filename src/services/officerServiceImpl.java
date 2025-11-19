@@ -18,10 +18,9 @@ public class officerServiceImpl implements OfficerService {
     public RegisterOfficerResponse registerOfficer(RegisterOfficerRequest request) {
         Officer officer = map(request);
         validateOfficerNin(officer.getNin());
-        officerRepository.save(officer);
-        return new RegisterOfficerResponse();
+        Officer savedOfficer = officerRepository.save(officer);
+        return map(savedOfficer);
     }
-
 
     private void validateOfficerNin(String nin){
         if(officerRepository.findByNin(nin) != null) throw  new OfficerExists("Officer Exist Already");

@@ -7,8 +7,10 @@ import dtos.response.SettleTicketResponse;
 import dtos.response.ViewTicketResponse;
 import dtos.response.BookTicketResponse;
 
+import java.util.ArrayList;
+
 public interface TicketService {
     BookTicketResponse bookTicket(BookTicketsRequest request);
-    ViewTicketResponse viewTickets(ViewTicketRequest request);
+    ArrayList<ViewTicketResponse> viewTickets(ViewTicketRequest request);
     SettleTicketResponse settleTicket(SettleTicketRequest request);
 }

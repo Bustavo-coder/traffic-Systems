@@ -7,6 +7,15 @@ public class Ticket {
     private Vehicle vehicle;
     private Offence offence;
     private boolean hasPaid;
+
+    public boolean isSettled() {
+        return hasPaid;
+    }
+
+    public void setSettled(boolean hasPaid) {
+        this.hasPaid = hasPaid;
+    }
+
     private Officer issuer;
     private final LocalDateTime dateOfBooking = LocalDateTime.now();
     private LocalDateTime dateOfPayment;

@@ -4,9 +4,7 @@ import data.models.Offence;
 import data.models.Officer;
 import data.models.Ticket;
 import data.models.Vehicle;
-import data.repositories.OfficerRepository;
-import data.repositories.TicketsRepository;
-import data.repositories.VehicleRepository;
+import data.repositories.*;
 import dtos.requests.BookTicketsRequest;
 import dtos.requests.SettleTicketRequest;
 import dtos.requests.ViewTicketRequest;
@@ -15,7 +13,10 @@ import dtos.response.ViewTicketResponse;
 import dtos.response.BookTicketResponse;
 import exceptions.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+
+import static utils.Mapper.*;
 
 public class TicketServiceIml implements TicketService{
     private final OfficerRepository officerRepository;
@@ -28,6 +29,13 @@ public class TicketServiceIml implements TicketService{
         this.ticketsRepository = ticketsRepository;
     }
 
+    public TicketServiceIml() {
+        this.officerRepository = new Officers();
+        this.ticketsRepository = new Tickets();
+        this.vehicleRepository = new Vehicles();
+
+    }
+
     @Override
     public BookTicketResponse bookTicket(BookTicketsRequest request) {
         Officer issuer = searchForOfficer(request.getOfficerId());
@@ -36,46 +44,48 @@ public class TicketServiceIml implements TicketService{
         validateVehicle(savedvehicle);
 
 
-        Ticket ticket = new Ticket();
-        ticket.setOffence(Offence.valueOf(request.getOffenceName()));
+        Ticket ticket = map(request);
         ticket.setIssuer(issuer);
         ticket.setVehicle(savedvehicle);
 
-        ticketsRepository.save(ticket);
+       Ticket savedTicket =  ticketsRepository.save(ticket);
         savedvehicle.getTickets().add(ticket);
         vehicleRepository.save(savedvehicle);
-        return null;
+
+        return map(savedTicket);
     }
 
+
     @Override
-    public ViewTicketResponse viewTickets(ViewTicketRequest request) {
+    public ArrayList<ViewTicketResponse> viewTickets(ViewTicketRequest request) {
         Vehicle vehicle = searchForVehicle(request.getVehicleId());
         validateVehicle(vehicle);
 
         ArrayList<Ticket> listOfTickets = new ArrayList<>();
+      ArrayList <ViewTicketResponse> viewTicket = new ArrayList<>();
         for (Ticket ticket : ticketsRepository.findAll().values()){
             if(ticket.getVehicle() == vehicle) listOfTickets.add(ticket);
         }
-
-      return new ViewTicketResponse();
+        listOfTickets.forEach(ticket -> viewTicket.add(mapView(ticket)));
+      return viewTicket;
     }
+
+
 
     @Override
     public SettleTicketResponse settleTicket(SettleTicketRequest request) {
-        Vehicle searchedVehicle = searchForVehicle(request.getVehicleId());
-        validateVehicle(searchedVehicle);
-
         Ticket searchedTicket = searchForTicket(request.getTicketId());
         validateTicket(request.getTicketId());
 
         double offenceFee = request.getOffenceFee();
         validateOffenceFee(request);
 
+        searchedTicket.setDateOfPayment(LocalDateTime.now());
+
         validateTicketStatus(searchedTicket);
         searchedTicket.setPaymentStatus(true);
-        ticketsRepository.save(searchedTicket);
-        return null;
-
+        Ticket settledTicket = ticketsRepository.save(searchedTicket);
+        return mapToSettle(settledTicket);
     }
 
 
