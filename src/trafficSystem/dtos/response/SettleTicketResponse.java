@@ -9,9 +9,4 @@ public class SettleTicketResponse {
     private Boolean hasPaid;
     private String ownerName;
     private String vehicleId;
-
-
-//    public void setDateOfPayment(LocalDateTime localDateTime){
-//        dateOfPayment = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm").format(localDateTime);
-//    }
 }

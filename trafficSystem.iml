@@ -6,6 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/exceptions" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/trafficSystem/services" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/trafficSystems" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="true" />
     </content>
   </component>
 </module>

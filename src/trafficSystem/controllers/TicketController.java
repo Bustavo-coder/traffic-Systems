@@ -15,13 +15,13 @@ public class TicketController {
     private TicketService ticketService;
 
     @PostMapping("/ticket")
-   public BookTicketResponse bookTicket(BookTicketsRequest request){
+   public BookTicketResponse bookTicket( @RequestBody BookTicketsRequest request){
        return ticketService.bookTicket(request);
    }
 
-    @GetMapping("/tickets/{vehicleId}")
-    public ArrayList<ViewTicketResponse> viewTickets( String vehicleId){
-        return ticketService.viewTickets(vehicleId);
+    @GetMapping("/tickets/{id}")
+    public ArrayList<ViewTicketResponse> viewTickets(@PathVariable("id") String id){
+        return ticketService.viewTickets(id);
     }
 
     @PatchMapping("/settle")

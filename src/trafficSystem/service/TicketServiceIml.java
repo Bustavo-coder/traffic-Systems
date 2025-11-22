@@ -34,6 +34,7 @@ public class TicketServiceIml implements TicketService {
 
     @Override
     public BookTicketResponse bookTicket(BookTicketsRequest request) {
+        System.out.println(request.getOfficerId());
         Officer issuer = searchForOfficer(request.getOfficerId());
         validateIssuer(issuer);
 
@@ -41,7 +42,7 @@ public class TicketServiceIml implements TicketService {
         validateVehicle(savedvehicle);
 
 
-        Ticket ticket = new Ticket();
+        Ticket ticket = map(request);
         ticket.setOffence(Offence.valueOf(request.getOffenceName()));
         ticket.setIssuer(issuer);
         ticket.setVehicle(savedvehicle);
@@ -59,9 +60,10 @@ public class TicketServiceIml implements TicketService {
         ArrayList<Ticket> listOfTickets = new ArrayList<>();
       ArrayList <ViewTicketResponse> viewTicket = new ArrayList<>();
         for (Ticket ticket : ticketsRepository.findAll()){
-            if(ticket.getVehicle() == vehicle) listOfTickets.add(ticket);
+            if(ticket.getVehicle().getId().equals(vehicle.getId())) listOfTickets.add(ticket);
         }
         listOfTickets.forEach(ticket -> viewTicket.add(mapView(ticket)));
+        System.out.println(listOfTickets.size());
       return viewTicket;
     }
 
@@ -74,8 +76,6 @@ public class TicketServiceIml implements TicketService {
 
         Double offenceFee = Double.parseDouble(request.getOffenceFee());
         validateOffenceFee(request);
-
-        searchedTicket.setDateOfPayment(LocalDateTime.now());
 
         validateTicketStatus(searchedTicket);
         searchedTicket.setHasPaid(true);

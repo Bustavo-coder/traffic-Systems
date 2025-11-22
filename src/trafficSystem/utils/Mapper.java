@@ -5,6 +5,7 @@ import trafficSystem.data.models.*;
 import trafficSystem.dtos.requests.*;
 import trafficSystem.dtos.response.*;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Mapper {
@@ -58,7 +59,6 @@ public class Mapper {
 
     public static BookTicketResponse map(Ticket savedTicket){
         BookTicketResponse response = new BookTicketResponse();
-        response.setDateOfBooking(savedTicket.getDateOfBooking());
         response.setIssuerName(savedTicket.getIssuer().getName());
         response.setHasPaid(savedTicket.isHasPaid());
         response.setOffenceFee(savedTicket.getOffence().price);
@@ -67,17 +67,17 @@ public class Mapper {
         response.setVehicleId(savedTicket.getVehicle().getId());
         response.setOffence(savedTicket.getOffence().name());
         response.setOffenceFee(savedTicket.getOffence().price);
+        response.setDate(savedTicket.getDateOfBooking());
         return  response;
     }
 
     public static SettleTicketResponse mapToSettle(Ticket savedTicket){
         SettleTicketResponse response = new SettleTicketResponse();
-        String date = DateTimeFormatter.ofPattern("yyy-MM-dd hh:mm:s").format(savedTicket.getDateOfBooking());
-        response.setDateOfPayment(date);
         response.setHasPaid(savedTicket.isHasPaid());
         response.setOffence(savedTicket.getOffence().name());
         response.setOwnerName(savedTicket.getVehicle().getOwner().getName());
         response.setVehicleId(savedTicket.getVehicle().getId());
+        response.setDateOfPayment(DateTimeFormatter.ofPattern("yyy-MM-d HH:mm:s").format(LocalDateTime.now()));
         return response;
 
 
@@ -85,15 +85,16 @@ public class Mapper {
 
     public static ViewTicketResponse mapView(Ticket savedTicket){
         ViewTicketResponse response = new ViewTicketResponse();
-        String date = DateTimeFormatter.ofPattern("yyy-MM-dd hh:mm:s").format(savedTicket.getDateOfBooking());
-        response.setDateOfBooking(date);
         response.setIssuerName(savedTicket.getIssuer().getName());
         response.setTicketId(savedTicket.getId());
         response.setHasPaid(savedTicket.isHasPaid());
-        response.setOfficerId(savedTicket.getIssuer().getId());
         response.setVehicleId(savedTicket.getId());
-        response.setOwnerName(savedTicket.getVehicle().getName());
+        response.setOwnerName(savedTicket.getVehicle().getOwner().getName());
         response.setVehicleId(savedTicket.getVehicle().getId());
+        response.setVehicleName(savedTicket.getVehicle().getName());
+        response.setOffence(savedTicket.getId());
+        response.setOffenceFee(savedTicket.getOffence().price);
+        response.setDateOfBooking(DateTimeFormatter.ofPattern("yyy-MM-d HH:mm:ss").format(LocalDateTime.now()));
     return response;
     }
 

@@ -8,11 +8,11 @@ import java.time.format.DateTimeFormatter;
 public class ViewTicketResponse {
     private String issuerName;
     private String ownerName;
+    private String vehicleName;
     private String Offence;
     private String dateOfBooking;
-    private String offenceFee;
+    private Double offenceFee;
     private Boolean hasPaid;
     private String  vehicleId;
-    private String officerId;
     private String  ticketId;
 }
